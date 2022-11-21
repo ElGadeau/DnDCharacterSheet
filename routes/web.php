@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\Character;
+
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +18,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['name' => 'Lily']);
+});
+
+Route::get('/character', function () {
+    $userCharacter = new Character();
+    return View('Character', ['userCharacter' => $userCharacter]);
+});
+
+Route::post('/character', function(Request $request) {
+    $content = $request->all();
+
+    $userCharacter = new Character();
+    $userCharacter->SetAge($content["ageInput"]);
+    $userCharacter->SetName($content["nameInput"]);
+
+    return View('Character', ['userCharacter' => $userCharacter]);
 });
